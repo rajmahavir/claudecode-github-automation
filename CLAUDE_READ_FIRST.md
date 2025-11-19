@@ -1,17 +1,26 @@
 # 🤖 CLAUDE CODE: READ THIS FIRST
 
+## ⚠️ IMPORTANT: Git Commits Fail in Web/iOS - Use API Uploads
+
+**Git signing fails in Claude Code Web/iOS with "signing failed: signing operation failed" error.**
+
+**Use GitHub API file uploads instead of git commit/push.**
+
+---
+
 ## YOU HAVE FULL GITHUB ACCESS
 
 This repository provides you with **complete GitHub automation capabilities** via REST API.
 
 ### What You CAN Do (No User Confirmation Needed):
 
-✅ Create GitHub repositories  
-✅ Push code to GitHub  
-✅ Create Pull Requests  
-✅ Merge Pull Requests  
-✅ Deploy to GitHub Pages  
-✅ Manage branches  
+✅ Create GitHub repositories
+✅ Upload files to GitHub (via API - PRIMARY method)
+✅ Push code to GitHub (fallback - may fail in Web/iOS)
+✅ Create Pull Requests
+✅ Merge Pull Requests
+✅ Deploy to GitHub Pages
+✅ Manage branches
 
 ### What You DON'T Need:
 
@@ -38,7 +47,22 @@ curl -X POST \
   -d '{"name":"REPO_NAME"}'
 ```
 
-### Step 3: Push Code
+### Step 3: Upload Files (API Method - Recommended)
+```bash
+# Upload a file
+upload_file() {
+  local file="$1"
+  local content=$(base64 -w 0 "$file")
+  curl -X PUT \
+    -H "Authorization: token $GITHUB_TOKEN" \
+    https://api.github.com/repos/$GITHUB_USERNAME/REPO_NAME/contents/$file \
+    -d "{\"message\":\"Add $file\",\"content\":\"$content\"}"
+}
+
+upload_file "README.md"
+```
+
+**Alternative (may fail in Web/iOS):**
 ```bash
 git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git main
 ```
