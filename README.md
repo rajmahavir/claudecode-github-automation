@@ -8,11 +8,11 @@ This repository provides a comprehensive setup for Claude Code to automatically 
 
 ## 🎯 Purpose
 
-When using Claude Code on Web or iOS, it often ignores environment variables and tries to use git commands without proper authentication, wasting tokens on errors. This template solves that problem by providing:
+This template provides a complete setup for Claude Code to use GitHub API with your Personal Access Token stored as environment variables. This solves common authentication issues by providing:
 
 - ✅ Persistent instructions that Claude Code reads automatically
 - ✅ Complete GitHub API workflow templates
-- ✅ Environment variable management
+- ✅ Direct environment variable access (no .env file loading)
 - ✅ Ready-to-use command references
 - ✅ Proper authentication handling
 
@@ -24,8 +24,8 @@ When using Claude Code on Web or iOS, it often ignores environment variables and
 - **`README.md`** - This file, project overview and setup
 - **`START_HERE.md`** - Quick start guide for immediate use
 - **`github-api-commands.md`** - Copy-paste ready API commands
-- **`.env.example`** - Template for your environment variables
-- **`scripts/init-session.sh`** - Session initialization script
+- **`.env.example`** - Example showing what variables to set in Claude Code settings
+- **`scripts/`** - Helper scripts for testing and file uploads
 - **`.gitignore`** - Properly configured to exclude sensitive files
 
 ---
@@ -39,19 +39,14 @@ git clone https://github.com/YOUR_USERNAME/claudecode-github-automation.git
 cd claudecode-github-automation
 ```
 
-### 2. Create Your `.env` File
+### 2. Set Environment Variables in Claude Code
 
-```bash
-cp .env.example .env
-```
+**In Claude Code Web/iOS:**
 
-Edit `.env` with your credentials:
-
-```bash
-GITHUB_TOKEN=ghp_your_actual_token_here
-GITHUB_USERNAME=your_github_username
-GITHUB_DEFAULT_OWNER=your_github_username
-```
+1. Go to Settings → Environment Variables
+2. Add: `GITHUB_TOKEN` = `ghp_your_token_here`
+3. Add: `GITHUB_USERNAME` = `your_github_username`
+4. Add: `GITHUB_DEFAULT_OWNER` = `your_github_username` (optional)
 
 ### 3. Get Your GitHub Token
 
@@ -59,13 +54,13 @@ GITHUB_DEFAULT_OWNER=your_github_username
 2. Click "Generate new token (classic)"
 3. Select scopes: `repo`, `workflow`, `admin:repo_hook`
 4. Generate and copy the token
-5. Paste into `.env` file
+5. Add to Claude Code Settings → Environment Variables
 
-### 4. Initialize Session
+### 4. Test It
 
 ```bash
-source .env
-./scripts/init-session.sh
+echo "Token: ${GITHUB_TOKEN:0:10}..."
+echo "Username: $GITHUB_USERNAME"
 ```
 
 ---
@@ -79,7 +74,7 @@ When you open this project in Claude Code (Web or iOS):
 1. **Claude Code automatically reads** `.claude/instructions.md`
 2. **It learns** to always use GitHub API with your token
 3. **It follows** the complete workflow without reminders
-4. **It uses** environment variables from `.env` automatically
+4. **It uses** environment variables directly (no .env file needed)
 
 ### The Magic
 
@@ -100,7 +95,7 @@ The `.claude/instructions.md` file contains explicit, detailed instructions that
 When creating a new repository with Claude Code:
 
 1. Copy `.claude/instructions.md` to your new project
-2. Copy `.env` file (with your credentials)
+2. Environment variables are already set in Claude Code settings
 3. Claude Code will automatically follow the GitHub workflow
 
 ### As a Template
@@ -128,16 +123,16 @@ The brain of the operation. Contains:
 
 **Claude Code reads this automatically** - you don't need to tell it!
 
-### `.env`
+### Environment Variables
 
-Your credentials storage:
+Set in Claude Code Settings → Environment Variables:
 ```bash
 GITHUB_TOKEN=ghp_xxxxx
 GITHUB_USERNAME=your_username
 GITHUB_DEFAULT_OWNER=your_username
 ```
 
-**Never commit this file** - it's in `.gitignore`
+**Stored securely** in Claude Code settings, available in all sessions
 
 ### `github-api-commands.md`
 
@@ -158,7 +153,7 @@ Quick start guide for when you need to jump in fast.
 
 ### 1. Create New Repository
 ```bash
-source .env
+# Environment variables are already available
 # Use GitHub API to create repo
 # Initialize local git
 # Push initial commit
@@ -166,7 +161,7 @@ source .env
 
 ### 2. Feature Branch Workflow
 ```bash
-source .env
+# Environment variables are already available
 # Create feature branch
 # Make changes and commit
 # Push to GitHub
@@ -176,7 +171,7 @@ source .env
 
 ### 3. Direct Push to Main
 ```bash
-source .env
+# Environment variables are already available
 # Make changes
 # Commit
 # Push with token in URL
@@ -186,15 +181,15 @@ source .env
 
 ## 🛡️ Security
 
-- ✅ `.env` file is in `.gitignore` (never committed)
-- ✅ Token is only stored locally
+- ✅ Environment variables stored securely in Claude Code settings
+- ✅ Token never committed to repository
 - ✅ Commands use environment variables (not hardcoded)
 - ✅ Minimal token permissions required
 
 **Best Practices:**
 - Rotate tokens every 90 days
 - Use tokens with minimum required scopes
-- Never share `.env` file
+- Never commit tokens to repository
 - Don't log or echo full token value
 
 ---
@@ -210,7 +205,7 @@ source .env
 ### Authentication Errors
 
 1. Check token: `echo ${GITHUB_TOKEN:0:10}...`
-2. If empty, run: `source .env`
+2. If empty, set in Claude Code Settings → Environment Variables
 3. Verify token at: https://github.com/settings/tokens
 4. Ensure scopes include: `repo`, `workflow`
 
@@ -257,7 +252,7 @@ Perfect for:
 
 ## 🚀 Next Steps
 
-1. ✅ Set up your `.env` file
+1. ✅ Set environment variables in Claude Code Settings
 2. ✅ Read `START_HERE.md` for quick start
 3. ✅ Try creating a test repository
 4. ✅ Use this as template for all projects
@@ -268,9 +263,9 @@ Perfect for:
 
 **IMPORTANT**: This project uses GitHub API with authentication token.
 
-Before ANY GitHub operation:
-1. Run: `source .env`
-2. Use `$GITHUB_TOKEN` in all API calls
+Environment variables are already available:
+1. Use `$GITHUB_TOKEN` directly in all API calls
+2. Use `$GITHUB_USERNAME` for repository operations
 3. See `.claude/instructions.md` for complete workflow
 
 The instructions are in `.claude/instructions.md` - read that file first!

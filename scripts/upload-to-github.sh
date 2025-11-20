@@ -14,7 +14,7 @@
 #   ./upload-to-github.sh my-repo "Feature update" "feature/new"
 #
 # Prerequisites:
-#   - .env file with GITHUB_TOKEN and GITHUB_USERNAME
+#   - GITHUB_TOKEN and GITHUB_USERNAME environment variables
 #   - base64, curl, find commands available
 #############################################################################
 
@@ -33,45 +33,22 @@ print_error() { echo -e "${RED}❌ $1${NC}"; }
 print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
 print_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 
-# Check if .env file exists and load it
-load_environment() {
-  local env_paths=(
-    "./.env"
-    "../.env"
-    "~/.env"
-    "/home/user/.env"
-    "/home/user/claudecode-github-automation/.env"
-  )
-
-  local env_loaded=false
-  for env_path in "${env_paths[@]}"; do
-    if [ -f "$env_path" ]; then
-      print_info "Loading environment from $env_path"
-      # shellcheck disable=SC1090
-      source "$env_path"
-      env_loaded=true
-      break
-    fi
-  done
-
-  if [ "$env_loaded" = false ]; then
-    print_error "No .env file found in standard locations"
-    print_info "Searched: ${env_paths[*]}"
-    exit 1
-  fi
-
+# Verify required environment variables
+verify_environment() {
   # Verify required variables
   if [ -z "$GITHUB_TOKEN" ]; then
-    print_error "GITHUB_TOKEN not set in .env file"
+    print_error "GITHUB_TOKEN environment variable is required"
+    print_info "Please set it in your Claude Code environment variables settings"
     exit 1
   fi
 
   if [ -z "$GITHUB_USERNAME" ]; then
-    print_error "GITHUB_USERNAME not set in .env file"
+    print_error "GITHUB_USERNAME environment variable is required"
+    print_info "Please set it in your Claude Code environment variables settings"
     exit 1
   fi
 
-  print_success "Environment loaded successfully"
+  print_success "Environment variables verified"
   print_info "Username: $GITHUB_USERNAME"
   print_info "Token: ${GITHUB_TOKEN:0:10}..."
 }
@@ -221,7 +198,7 @@ ${YELLOW}Examples:${NC}
   ./upload-to-github.sh my-repo "Add feature" "feature/new"
 
 ${YELLOW}Prerequisites:${NC}
-  - .env file with GITHUB_TOKEN and GITHUB_USERNAME
+  - GITHUB_TOKEN and GITHUB_USERNAME environment variables set
   - Repository must already exist on GitHub
 
 ${YELLOW}Notes:${NC}
@@ -260,8 +237,8 @@ main() {
   local message="${2:-Upload files via API}"
   local branch="${3:-main}"
 
-  # Load environment
-  load_environment
+  # Verify environment
+  verify_environment
 
   # Confirm action
   echo ""

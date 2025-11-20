@@ -32,14 +32,10 @@ This repository provides you with **complete GitHub automation capabilities** vi
 
 ---
 
-## Quick Start (3 Steps)
+## Quick Start (2 Steps)
 
-### Step 1: Load Token
-```bash
-source .env || source ../.env || source ~/.env || source /home/user/.env
-```
-
-### Step 2: Create Repo
+### Step 1: Create Repo
+**Environment variables are already available - just use them directly**
 ```bash
 curl -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
@@ -47,7 +43,7 @@ curl -X POST \
   -d '{"name":"REPO_NAME"}'
 ```
 
-### Step 3: Upload Files (API Method - Recommended)
+### Step 2: Upload Files (API Method - Recommended)
 ```bash
 # Upload a file
 upload_file() {
@@ -81,7 +77,7 @@ git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git main
 - ❌ Ask "Should I use gh CLI or web interface?"
 
 **What TO do:**
-1. Load `.env` 
+1. Environment variables are already available
 2. Run curl command to create repo
 3. Initialize git and push
 4. Done. Provide GitHub URL.
@@ -99,7 +95,7 @@ git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git main
 ### User Says: "Use the automation template"
 
 **This means:**
-- Load `.env` from any location
+- Environment variables are already available
 - Follow the GitHub API workflow
 - Don't ask questions, just execute
 
@@ -114,19 +110,18 @@ git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git main
 
 ---
 
-## Token Location
+## Environment Variables
 
-The `GITHUB_TOKEN` is in `.env` file. Check these locations:
+The `GITHUB_TOKEN` and `GITHUB_USERNAME` are already available as environment variables.
+
+**Just use them directly:**
 
 ```bash
-./.env                                    # Current directory
-../.env                                   # Parent directory  
-~/.env                                    # Home directory
-/home/user/.env                           # User directory
-/home/user/claudecode-github-automation/.env  # This repo
+$GITHUB_TOKEN       # In shell scripts
+$GITHUB_USERNAME    # In shell scripts
+process.env.GITHUB_TOKEN      # In Node.js
+os.environ.get('GITHUB_TOKEN')  # In Python
 ```
-
-Load with: `source [PATH_TO_ENV]`
 
 ---
 
@@ -146,7 +141,7 @@ Load with: `source [PATH_TO_ENV]`
 
 Before asking any clarifying questions about GitHub operations:
 
-- [ ] Did I check for `.env` file?
+- [ ] Are environment variables already available?
 - [ ] Did I read `.claude/instructions.md`?
 - [ ] Did I try using GitHub REST API with curl?
 - [ ] Am I about to ask something that's clearly explained in the docs?
