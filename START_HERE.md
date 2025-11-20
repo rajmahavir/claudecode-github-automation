@@ -18,30 +18,25 @@
 5. Click: **"Generate token"**
 6. **Copy the token** (starts with `ghp_`)
 
-### Step 2: Create Your `.env` File
+### Step 2: Set Environment Variables in Claude Code
 
-```bash
-cp .env.example .env
-```
+**In Claude Code Web/iOS:**
 
-Edit `.env` and add your credentials:
+1. Go to Settings → Environment Variables
+2. Add: `GITHUB_TOKEN` = `ghp_paste_your_token_here`
+3. Add: `GITHUB_USERNAME` = `your_github_username`
+4. Add: `GITHUB_DEFAULT_OWNER` = `your_github_username` (optional)
 
-```bash
-GITHUB_TOKEN=ghp_paste_your_token_here
-GITHUB_USERNAME=your_github_username
-GITHUB_DEFAULT_OWNER=your_github_username
-```
-
-Save the file.
+**That's it!** Environment variables are automatically available in all sessions.
 
 ### Step 3: Test It
 
 ```bash
-source .env
 echo "Token loaded: ${GITHUB_TOKEN:0:10}..."
+echo "Username: $GITHUB_USERNAME"
 ```
 
-You should see: `Token loaded: ghp_XXXXXX...`
+You should see your token and username.
 
 ---
 
@@ -129,12 +124,12 @@ Merge PR #3 to main
 
 When you have `.claude/instructions.md` in your project:
 
-✅ Loads `.env` file first  
-✅ Uses `$GITHUB_TOKEN` in all GitHub operations  
-✅ Uses GitHub REST API for repo creation  
-✅ Includes token in git push URLs  
-✅ Creates PRs via API  
-✅ Merges PRs via API  
+✅ Uses environment variables directly (no .env loading needed)
+✅ Uses `$GITHUB_TOKEN` in all GitHub operations
+✅ Uses GitHub REST API for repo creation
+✅ Includes token in git push URLs
+✅ Creates PRs via API
+✅ Merges PRs via API
 ✅ Follows complete workflow without reminders  
 
 ---
@@ -154,19 +149,13 @@ But with this setup, **you don't need to know the commands** - just tell Claude 
 
 ### Security
 
-- ✅ Never commit `.env` file (it's in `.gitignore`)
-- ✅ Keep your token private
+- ✅ Environment variables are stored securely in Claude Code settings
+- ✅ Never commit tokens to repository
 - ✅ Rotate tokens every 90 days
 
 ### Each Session
 
-The first time you use this in a session, you might need to:
-
-```bash
-source .env
-```
-
-But Claude Code should remember to do this automatically based on `.claude/instructions.md`.
+Environment variables are automatically available in every session. No setup needed!
 
 ---
 
@@ -175,11 +164,10 @@ But Claude Code should remember to do this automatically based on `.claude/instr
 ### "Permission denied" or "Authentication failed"
 
 ```bash
-# Check if token is loaded
+# Check if token is available
 echo $GITHUB_TOKEN
 
-# If empty or wrong, reload
-source .env
+# If empty, set it in Claude Code Settings → Environment Variables
 ```
 
 ### Claude Code not following instructions
@@ -193,7 +181,7 @@ source .env
 1. Check token at: https://github.com/settings/tokens
 2. Verify it has `repo` and `workflow` scopes
 3. Generate a new token if needed
-4. Update `.env` with new token
+4. Update in Claude Code Settings → Environment Variables
 
 ---
 
@@ -204,15 +192,14 @@ source .env
 ```bash
 cp -r /path/to/claudecode-github-automation /path/to/new-project
 cd /path/to/new-project
-# Copy your .env file
-cp /path/to/claudecode-github-automation/.env .env
+# Environment variables are already set in Claude Code settings - no need to copy anything!
 ```
 
 ### Option 2: Ask Claude Code
 
 ```
-Create a new project with the Claude Code GitHub automation 
-template, including .claude/instructions.md and .env setup
+Create a new project with the Claude Code GitHub automation
+template, including .claude/instructions.md
 ```
 
 ---
@@ -222,8 +209,8 @@ template, including .claude/instructions.md and .env setup
 Before starting your first project:
 
 - [ ] GitHub token created with correct scopes
-- [ ] `.env` file created and populated
-- [ ] Tested with `source .env`
+- [ ] Environment variables set in Claude Code Settings
+- [ ] Tested with `echo $GITHUB_TOKEN`
 - [ ] `.claude/instructions.md` present in project
 - [ ] Ready to code!
 
@@ -239,7 +226,7 @@ Before starting your first project:
 
 ## 💡 Pro Tips
 
-1. **Keep `.env` updated** - If you change your token, update this file
+1. **Environment variables are persistent** - Set once in Claude Code settings, use everywhere
 2. **Read the instructions** - `.claude/instructions.md` has the complete guide
 3. **Test the API** - Use `curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/user`
 4. **Stay organized** - Use this template for all Claude Code projects

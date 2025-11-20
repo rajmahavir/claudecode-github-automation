@@ -50,7 +50,7 @@ Instead of using `git commit` and `git push`, upload files directly via GitHub A
 #### Quick Solution
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Function to upload files
 upload_file() {
@@ -88,7 +88,7 @@ upload_file "src/app.js" "my-repo" "Update app"
 Use the script at `scripts/upload-to-github.sh`:
 
 ```bash
-source .env
+# Environment variables are already available
 ./scripts/upload-to-github.sh claudecode-github-automation "Update all files"
 ```
 
@@ -107,7 +107,7 @@ source .env
 
 #### Causes
 
-1. Token not loaded into environment
+1. Environment variables not set in Claude Code Settings
 2. Token is expired or invalid
 3. Token has wrong format
 
@@ -118,8 +118,7 @@ source .env
 echo $GITHUB_TOKEN
 # Should show: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# 2. If empty, load environment
-source .env
+# 2. If empty, set in Claude Code Settings → Environment Variables
 
 # 3. Verify token format
 echo ${GITHUB_TOKEN:0:4}
@@ -133,10 +132,8 @@ curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/user
 #### Fix
 
 ```bash
-# Always run this first
-source .env
-
-# Verify it worked
+# Environment variables should already be available
+# Verify they're set
 echo "Token: ${GITHUB_TOKEN:0:10}..."
 echo "Username: $GITHUB_USERNAME"
 ```

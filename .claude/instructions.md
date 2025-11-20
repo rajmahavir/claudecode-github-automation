@@ -8,31 +8,23 @@
 
 ---
 
-## 🚨 CRITICAL: Read This First for EVERY Session
+## 🚨 CRITICAL: Environment Variables Are Already Available
 
-This project uses GitHub Personal Access Token stored in `.env` file for ALL GitHub operations.
+**NEVER try to load .env files. Environment variables are already available in Claude Code Web/iOS.**
 
----
-
-## Mandatory First Step - ALWAYS Execute
-
-**Before ANY GitHub operation, ALWAYS run:**
-
-```bash
-source .env
-```
-
-This loads your `GITHUB_TOKEN` and other GitHub credentials into the environment.
+**Just use them directly with `$GITHUB_TOKEN` or `$GITHUB_USERNAME` in bash scripts.**
 
 ---
 
 ## Environment Variables
 
-The following variables MUST be present in `.env`:
+The following environment variables are already set in your Claude Code environment:
 
 - `GITHUB_TOKEN` - Your GitHub Personal Access Token (with repo, workflow, admin:repo_hook scopes)
 - `GITHUB_USERNAME` - Your GitHub username
 - `GITHUB_DEFAULT_OWNER` - Default owner for repositories (usually same as username)
+
+**DO NOT use `# Environment variables are already available` or try to load environment variables. They are ALREADY available.**
 
 ---
 
@@ -43,8 +35,7 @@ The following variables MUST be present in `.env`:
 **ALWAYS use GitHub REST API:**
 
 ```bash
-source .env
-
+# Environment variables are already available - just use them directly
 curl -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
@@ -74,7 +65,7 @@ git remote add origin https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/reposito
 #### Upload a Single File
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Function to upload a file via GitHub API
 upload_file() {
@@ -100,7 +91,7 @@ upload_file "README.md" "my-repo" "Update README"
 #### Update Existing File
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Function to update existing file (requires SHA)
 update_file() {
@@ -131,7 +122,7 @@ update_file "config.json" "my-repo" "Update configuration"
 #### Bulk Upload Multiple Files
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Function to upload all files in directory
 bulk_upload() {
@@ -181,7 +172,7 @@ bulk_upload "my-repo" "Initial file upload"
 **Only use if you're in a desktop environment where git signing works.**
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Push to main
 git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git main
@@ -200,7 +191,7 @@ git push --force https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/REPO_NAME.git
 **Use GitHub REST API:**
 
 ```bash
-source .env
+# Environment variables are already available
 
 # Get the PR creation response
 PR_RESPONSE=$(curl -X POST \
@@ -226,7 +217,7 @@ echo "Created PR #$PR_NUMBER"
 **Use GitHub REST API with the PR number:**
 
 ```bash
-source .env
+# Environment variables are already available
 
 curl -X PUT \
   -H "Authorization: token $GITHUB_TOKEN" \
@@ -252,7 +243,7 @@ curl -X PUT \
 
 ```bash
 # Step 1: Load environment
-source .env
+# Environment variables are already available
 
 # Step 2: Make your code changes (edit files as needed)
 
@@ -298,7 +289,7 @@ echo "✅ Files uploaded successfully"
 
 ```bash
 # Step 1: Load environment
-source .env
+# Environment variables are already available
 
 # Step 2: Create and switch to feature branch (local only)
 git checkout -b feature/new-feature
@@ -341,21 +332,21 @@ echo "✅ Merged PR #$PR_NUMBER"
 
 1. **NEVER** rely on `git commit` in Web/iOS environments (signing fails)
 2. **NEVER** use `git push` without the token in the URL (if using git at all)
-3. **NEVER** skip `source .env` at the beginning
+3. **NEVER** try to load .env files - environment variables are already available
 4. **NEVER** use `gh` CLI commands (not available in Web/iOS)
 5. **NEVER** try to setup git credential helpers or signing configs
 6. **NEVER** hardcode tokens in commands
-7. **NEVER** forget to load environment variables before API calls
+7. **NEVER** use dotenv, python-dotenv, or any .env loading libraries
 
 ---
 
 ## ✅ ALWAYS DO These Things
 
-1. **ALWAYS** run `source .env` as the first command
+1. **ALWAYS** use environment variables directly - they are already available
 2. **ALWAYS** use GitHub API file uploads as PRIMARY method in Web/iOS
-3. **ALWAYS** use `$GITHUB_TOKEN` variable in commands
+3. **ALWAYS** use `$GITHUB_TOKEN` and `$GITHUB_USERNAME` variables in commands
 4. **ALWAYS** use GitHub REST API for PR creation and merging
-5. **ALWAYS** verify environment variables are loaded before proceeding
+5. **ALWAYS** access environment variables with `$VAR_NAME` in bash or `process.env.VAR_NAME` in Node.js or `os.environ.get('VAR_NAME')` in Python
 6. **ALWAYS** follow the complete workflow steps in order
 7. **ALWAYS** use API uploads instead of git push when in Web/iOS
 
@@ -363,7 +354,7 @@ echo "✅ Merged PR #$PR_NUMBER"
 
 ## Verification Commands
 
-**Check if environment is loaded:**
+**Check if environment variables are available:**
 
 ```bash
 echo "Token: ${GITHUB_TOKEN:0:10}..."
@@ -394,7 +385,7 @@ See `github-api-commands.md` for copy-paste ready commands.
 
 **If push fails with authentication error:**
 - Verify: `echo $GITHUB_TOKEN` (should show token)
-- If empty, run: `source .env`
+- If empty, environment variables are not set correctly in Claude Code settings
 - Check token has correct permissions on GitHub
 
 **If API calls fail:**
@@ -416,11 +407,12 @@ See `github-api-commands.md` for copy-paste ready commands.
 
 ## Security Notes
 
-- Never commit `.env` file to repository (it's in `.gitignore`)
+- Environment variables are stored securely in Claude Code settings
 - Token should have minimum required permissions
 - Rotate tokens periodically
 - Never share token in logs or outputs
+- Never commit tokens to repository
 
 ---
 
-**Remember:** The `.env` file is the single source of truth for GitHub credentials. Load it first, use it always.
+**Remember:** Environment variables are already available. Just use them directly with `$VAR_NAME`, `process.env.VAR_NAME`, or `os.environ.get('VAR_NAME')`.

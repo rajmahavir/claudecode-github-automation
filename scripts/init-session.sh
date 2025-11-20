@@ -6,28 +6,16 @@ set -e
 echo "🚀 Initializing Claude Code GitHub Session..."
 echo ""
 
-# Check if .env exists
-if [ ! -f .env ]; then
-    echo "❌ Error: .env file not found!"
-    echo ""
-    echo "Please create .env file from .env.example:"
-    echo "  cp .env.example .env"
-    echo ""
-    echo "Then add your GitHub credentials to .env"
-    exit 1
-fi
-
-# Load environment variables
-source .env
-
-# Verify required variables
+# Verify required environment variables
 if [ -z "$GITHUB_TOKEN" ]; then
-    echo "❌ Error: GITHUB_TOKEN not set in .env"
+    echo "❌ Error: GITHUB_TOKEN environment variable is required"
+    echo "Please set it in your Claude Code environment variables settings"
     exit 1
 fi
 
 if [ -z "$GITHUB_USERNAME" ]; then
-    echo "❌ Error: GITHUB_USERNAME not set in .env"
+    echo "❌ Error: GITHUB_USERNAME environment variable is required"
+    echo "Please set it in your Claude Code environment variables settings"
     exit 1
 fi
 

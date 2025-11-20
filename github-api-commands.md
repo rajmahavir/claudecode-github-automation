@@ -6,17 +6,14 @@
 
 **Use GitHub API file uploads (section below) instead of git commit/push in Web/iOS environments.**
 
-All commands require running `source .env` first!
+All commands use environment variables that are already available!
 
 ---
 
 ## 🔐 Prerequisites
 
 ```bash
-# ALWAYS run this first
-source .env
-
-# Verify environment is loaded
+# Environment variables are already available - verify they're set
 echo "Token: ${GITHUB_TOKEN:0:10}..."
 echo "Username: $GITHUB_USERNAME"
 ```

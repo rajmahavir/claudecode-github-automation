@@ -11,8 +11,8 @@ Use this template when creating new projects with Claude Code that need GitHub i
 ```bash
 # Copy the essential files
 cp .claude/instructions.md /path/to/new-project/.claude/
-cp .env /path/to/new-project/
 cp github-api-commands.md /path/to/new-project/
+# Environment variables are already set in Claude Code Settings
 ```
 
 ### Option 2: Ask Claude Code
@@ -20,9 +20,9 @@ cp github-api-commands.md /path/to/new-project/
 When starting a new project with Claude Code, say:
 
 ```
-Create a new project with GitHub automation. 
-Copy the .claude/instructions.md from the claudecode-github-automation 
-template and set up .env file.
+Create a new project with GitHub automation.
+Copy the .claude/instructions.md from the claudecode-github-automation
+template. Environment variables are already set in Claude Code Settings.
 ```
 
 ---
@@ -32,8 +32,8 @@ template and set up .env file.
 ### Required Files
 
 1. **`.claude/instructions.md`** - Core automation instructions
-2. **`.env`** - Your GitHub credentials (never commit!)
-3. **`.gitignore`** - Includes .env and other sensitive files
+2. **`.gitignore`** - Excludes sensitive files
+3. **Environment variables** - Set in Claude Code Settings (GITHUB_TOKEN, GITHUB_USERNAME)
 
 ### Recommended Files
 
@@ -73,9 +73,9 @@ cd my-new-project
 ```bash
 # Copy from claudecode-github-automation
 cp -r /path/to/claudecode-github-automation/.claude .
-cp /path/to/claudecode-github-automation/.env .
 cp /path/to/claudecode-github-automation/.gitignore .
 cp /path/to/claudecode-github-automation/github-api-commands.md .
+# Environment variables are already set in Claude Code Settings
 ```
 
 ### Step 3: Initialize Git
@@ -89,14 +89,14 @@ git branch -m main
 
 Open the project in Claude Code and start working. Claude will:
 - Automatically read `.claude/instructions.md`
-- Use GitHub API with your token from `.env`
+- Use GitHub API with environment variables directly
 - Follow the complete workflow without reminders
 
 ---
 
 ## Environment Variables Required
 
-Your `.env` file must contain:
+Set these in Claude Code Settings → Environment Variables:
 
 ```bash
 # GitHub Personal Access Token
@@ -159,7 +159,7 @@ When sharing this setup with team members:
 
 ### Each Team Member Needs:
 
-1. Their own `.env` file with their personal GitHub token
+1. Environment variables set in their Claude Code Settings with their personal GitHub token
 2. Same `.claude/instructions.md` (committed to repo)
 3. Claude Code installed
 
@@ -173,8 +173,7 @@ When sharing this setup with team members:
 - Project code
 
 ❌ Never Commit:
-- `.env` file
-- Tokens or credentials
+- Tokens or credentials (they're in Claude Code Settings, not files)
 - Personal configuration
 
 ---
@@ -210,7 +209,7 @@ Claude Code can create PRs, and GitHub Actions will run automatically.
 - ✅ Rotate tokens every 90 days
 - ✅ Use minimum required permissions
 - ✅ Never hardcode tokens in code
-- ✅ Add `.env` to `.gitignore`
+- ✅ Store tokens in Claude Code Settings only
 
 ### Workflow
 
@@ -235,9 +234,9 @@ Claude Code can create PRs, and GitHub Actions will run automatically.
 
 ```
 You: "Add a login page"
-Claude Code: 
+Claude Code:
   - Reads .claude/instructions.md
-  - Loads .env automatically
+  - Uses environment variables directly
   - Creates feature branch
   - Implements login page
   - Pushes and creates PR
@@ -298,14 +297,13 @@ Before pushing changes:
 ### Claude Code Not Using Token
 
 1. Check `.claude/instructions.md` exists
-2. Verify `.env` file has correct token
+2. Verify environment variables are set in Claude Code Settings
 3. Try explicitly: "Read .claude/instructions.md first"
 
 ### Token Expired
 
 1. Generate new token at https://github.com/settings/tokens
-2. Update `.env` file
-3. Run `source .env`
+2. Update in Claude Code Settings → Environment Variables
 
 ### Authentication Errors
 

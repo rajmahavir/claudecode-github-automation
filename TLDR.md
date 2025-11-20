@@ -11,15 +11,17 @@
 **NO.** You don't need it. Use curl commands below.
 
 ### Where is the GitHub token?
-**In `.env` file.** Check: `./.env`, `../.env`, `~/.env`, `/home/user/.env`
+**Already available as environment variable.** Just use `$GITHUB_TOKEN` directly.
 
 ---
 
 ## Quick Commands
 
-### Load Environment
+### Environment Variables
 ```bash
-source .env 2>/dev/null || source ../.env 2>/dev/null || source ~/.env 2>/dev/null || source /home/user/.env
+# They're already available - just use them!
+echo "Token: ${GITHUB_TOKEN:0:10}..."
+echo "Username: $GITHUB_USERNAME"
 ```
 
 ### Create Repository
@@ -90,7 +92,7 @@ curl -X POST \
 → Use curl to create it. NO ASKING.
 
 **"Use the automation template"**
-→ Load `.env` and follow GitHub API workflow with API uploads.
+→ Environment variables are already available. Follow GitHub API workflow with API uploads.
 
 **"Deploy to GitHub Pages"**
 → Use the GitHub Pages API command above.
@@ -101,11 +103,11 @@ curl -X POST \
 
 ---
 
-## Default Values
+## Environment Variables
 
-If `.env` not found and user mentions rajmahavir:
-- GITHUB_USERNAME=rajmahavir
-- Check: `/home/user/.env` or `/home/user/claudecode-github-automation/.env`
+Environment variables are set in Claude Code Settings and are automatically available:
+- `$GITHUB_TOKEN` - Your GitHub Personal Access Token
+- `$GITHUB_USERNAME` - Your GitHub username
 
 ---
 

@@ -4,15 +4,20 @@
 echo "🧪 Testing GitHub API Configuration..."
 echo ""
 
-# Check if .env exists
-if [ ! -f .env ]; then
-    echo "❌ .env file not found"
-    echo "Create it from .env.example first"
+# Verify required environment variables
+if [ -z "$GITHUB_TOKEN" ]; then
+    echo "❌ GITHUB_TOKEN environment variable is required"
+    echo "Please set it in your Claude Code environment variables settings"
     exit 1
 fi
 
-# Load environment
-source .env
+if [ -z "$GITHUB_USERNAME" ]; then
+    echo "❌ GITHUB_USERNAME environment variable is required"
+    echo "Please set it in your Claude Code environment variables settings"
+    exit 1
+fi
+
+echo "✅ Environment variables loaded"
 
 echo "Testing components:"
 echo ""
